@@ -3,6 +3,13 @@ import pandas as pd
 import random
 
 def make_pairs(n_fake_pairs, child_score_thresh, nested_comments_dict, embeddings):
+    """
+        n_fake_pairs: Number of fake pairs to make (int)
+        child_score_thresh: Minimum score to be used in a pair (int)
+        nested_comments_dict: Dictionary of comments where comment_id is the key,
+                              and a dictionary of comment attributes is the values
+        embeddings: Dictionary with comment_id as key and vector representation as value
+    """
     def single_pair_data(child_id, parent_id, pair_is_true):
         pair_data = [pair_is_true]
         pair_data.append(nested_comments_dict[child_id]['score'])

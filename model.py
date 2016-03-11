@@ -7,10 +7,16 @@ from keras.utils import np_utils
 
 
 def get_model_1(embedding_size):
-    """Metrics after 15 epochs: 6s - loss: 0.3370 - acc: 0.8565 - val_loss: 0.3984 - val_acc: 0.8189"""
+    """Return a model that convolves each attribute of child comment with similarl
+    placed attribute of parent comment, and then feeds that through a few dense layers
+
+    Metrics after 15 epochs:
+        loss: 0.3370 - acc: 0.8565 - val_loss: 0.3984 - val_acc: 0.8189
+        Takes 2 minutes to train on an iMac with NVIDIA GeForce GTX 775M GPU"""
     n_classes = 2
     n_filter=3
     model = Sequential()
+    #
     model.add(Convolution1D(nb_filter=n_filter, filter_length=2, border_mode='valid',
                             input_shape=[embedding_size, 2]))
     model.add(Flatten())
@@ -26,6 +32,9 @@ def get_model_1(embedding_size):
 
 
 def prep_X(x_array):
+    """Take an array where parent embedding and child embedding are concatenated.
+    Reshape to 2-dimensional array, with child embedding on top of parent embedding.
+    Also return embedding size"""
     embedding_size = x_array.shape[1] / 2
     out = x_array.reshape([x_array.shape[0], embedding_size, 2], order='F')
     return embedding_size, out
